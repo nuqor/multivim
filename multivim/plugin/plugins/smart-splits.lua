@@ -1,3 +1,5 @@
+require("dependencies").add { source = "mrjones2014/smart-splits.nvim" }
+
 require("smart-splits").setup {
   at_edge = "stop",
 }

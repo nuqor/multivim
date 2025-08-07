@@ -1,3 +1,5 @@
+require("dependencies").install_mini_deps()
+
 --
 -- Leader keys
 -- TODO: does work
@@ -15,17 +17,14 @@ vim.keymap.set("n", "K", vim.lsp.buf.hover)
 vim.keymap.set("n", "gD", vim.lsp.buf.references)
 vim.keymap.set("n", "gt", vim.lsp.buf.type_definition)
 vim.keymap.set("n", "gi", vim.lsp.buf.implementation)
-vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions)
+-- TODO: Add keymap again
+-- vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions)
 
 --
 -- Color scheme
 --
 
-require("catppuccin").setup {
-  flavour = "macchiato",
-}
-
-vim.cmd.colorscheme("catppuccin")
+-- vim.cmd.colorscheme("catppuccin")
 
 --
 -- Global options

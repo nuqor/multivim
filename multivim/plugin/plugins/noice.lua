@@ -1,3 +1,8 @@
+require("dependencies").add {
+  source = "folke/noice.nvim",
+  depends = { "MunifTanjim/nui.nvim" },
+}
+
 require("noice").setup {
   -- notify = { enabled = false },
   lsp = {

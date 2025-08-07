@@ -1,3 +1,5 @@
+require("dependencies").add { source = "nvim-neo-tree/neo-tree.nvim" }
+
 require("neo-tree").setup {
   filesystem = {
     filtered_items = {

@@ -1,3 +1,8 @@
+require("dependencies").add {
+  source = "nvim-lualine/lualine.nvim",
+  depends = { "folke/noice.nvim" },
+}
+
 require("lualine").setup {
   options = {
     disabled_filetypes = {

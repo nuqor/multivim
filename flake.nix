@@ -25,7 +25,6 @@
         pkgs: with pkgs.vimPlugins; [
           catppuccin-nvim
           conform-nvim
-          fidget-nvim
           gitsigns-nvim
           lualine-nvim
           neo-tree-nvim
@@ -64,19 +63,59 @@
           name = "multivim";
           src = ./multivim;
         }).overrideAttrs
-          { nvimSkipModules = [ "dependencies" ]; };
-      # pluginsRepos =
-      #   pkgs:
-      #   pkgs.lib.pipe (plugins pkgs) [
-      #     (map (plugin: plugin.src.url))
-      #     (map (
-      #       url:
-      #       (builtins.concatStringsSep "/" (
-      #         pkgs.lib.take 2 (builtins.match "https://github.com/(.*?)/(.*?)(\.git|/archive/.*)" url)
-      #       ))
-      #     ))
-      #     (builtins.concatStringsSep "\n")
-      #   ];
+          {
+            doCheck = false;
+            # nvimSkipModules = [ "lua.languages.*" ];
+          };
+      pluginsRepos =
+        pkgs:
+        let
+          getPackageRepo =
+            plugin:
+            (builtins.concatStringsSep "/" (
+              pkgs.lib.take 2 (builtins.match "https://github.com/(.*)/(.*)(\.git|/archive/.*)" plugin.src.url)
+            ));
+          getDependenciesRepos =
+            plugin:
+            if plugin ? dependencies && plugin != pkgs.vimPlugins.nvim-treesitter.withAllGrammars then
+              pkgs.lib.map getPackageRepo plugin.dependencies
+            else
+              [ ];
+          createMiniDepsCall =
+            plugin:
+            let
+              dependenciesRepos = getDependenciesRepos plugin;
+              sourceProperty = "source = \"${getPackageRepo plugin}\"";
+              dependsProperty =
+                if (builtins.length dependenciesRepos) > 0 then
+                  "depends = {\n${pkgs.lib.concatMapStringsSep ", " (plugin: "\"${plugin}\"") dependenciesRepos} }"
+                else
+                  "";
+            in
+            ''
+              require("dependencies").add {
+                ${sourceProperty},
+                ${dependsProperty}
+              }
+            '';
+        in
+        pkgs.lib.concatMapStringsSep "\n" createMiniDepsCall (plugins pkgs);
+      # pkgs.lib.pipe (plugins pkgs) [
+      #   (map (
+      #     plugin:
+      #     let
+      #       depRepos = getDependenciesRepos plugin;
+      #       depsTable = "depends = {\n" + "    ${pkgs.lib.concatStringsSep ",\n    " depRepos}\n" + "  },";
+      #     in
+      #     ''
+      #       require("dependencies").add {
+      #         source = "${getPackageRepo plugin}",
+      #         ${(if (builtins.length depRepos) > 0 then "${depsTable}" else "")}
+      #       }
+      #     ''
+      #   ))
+      #   (builtins.concatStringsSep "\n")
+      # ];
     in
     {
 
@@ -89,7 +128,8 @@
             (pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
               plugins = [
                 (multivimPlugin pkgs)
-              ] ++ (plugins pkgs);
+              ]
+              ++ (plugins pkgs);
               wrapperArgs = "--set MPL_BACKENDS_PATH ${./multivim/python/mpl_backends} --set NVIM_NIX_NATIVE 1";
             }).overrideAttrs
               (
@@ -130,11 +170,13 @@
             pkgs.mkShell {
               buildInputs = [
                 pkgs.git
+                pkgs.stylua
                 self.packages.${system}.neovim-nix-native-dev
               ];
               shellHook = ''
                 export XDG_CONFIG_HOME=$(git rev-parse --show-toplevel)
                 export NVIM_APPNAME=multivim
+                echo '${pluginsRepos pkgs}' | stylua -
               '';
             }
           );

@@ -56,3 +56,23 @@ vim.diagnostic.config {
     },
   },
 }
+
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  pattern = "*",
+  callback = function()
+    vim.opt.formatoptions:remove { "o" }
+  end,
+})
+
+--
+-- Languages
+--
+
+require("languages.lua")
+require("languages.nix")
+require("languages.yaml")
+require("languages.xml")
+require("languages.toml")
+require("languages.json")
+require("languages.markdown")
+require("languages.python")

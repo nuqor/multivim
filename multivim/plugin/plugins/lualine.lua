@@ -1,7 +1,4 @@
-require("dependencies").add {
-  source = "nvim-lualine/lualine.nvim",
-  depends = { "folke/noice.nvim" },
-}
+require("dependencies").add { source = "nvim-lualine/lualine.nvim" }
 
 require("lualine").setup {
   options = {

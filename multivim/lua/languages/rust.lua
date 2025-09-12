@@ -24,7 +24,7 @@ vim.lsp.config("rust_analyzer", {
 })
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = "nix",
+  pattern = "rust",
   callback = function(args)
     vim.opt.tabstop = 4
     vim.opt.softtabstop = 4

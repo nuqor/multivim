@@ -20,6 +20,11 @@ vim.lsp.config("rust_analyzer", {
       buffer = bufnr,
       callback = format_on_save_callback,
     })
+    vim.keymap.set(
+      "n",
+      "<C-i>",
+      vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+    )
   end,
 })
 

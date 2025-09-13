@@ -12,6 +12,7 @@ require("noice").setup {
   },
   presets = {
     long_message_to_split = true,
-    lsp_doc_border = true,
+    -- FIX: Does not seem to work: used vim.opt.winborder = "rounded"
+    -- lsp_doc_border = true,
   },
 }

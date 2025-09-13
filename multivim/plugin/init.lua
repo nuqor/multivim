@@ -40,6 +40,7 @@ vim.opt.relativenumber = true
 vim.opt.completeopt = "menuone,noselect,popup"
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = "both"
+vim.opt.winborder = "rounded"
 
 --
 -- Diagnostics

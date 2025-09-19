@@ -5,8 +5,8 @@ require("dependencies").add {
     {
       source = "nvim-telescope/telescope-fzf-native.nvim",
       hooks = {
-        post_checkout = function()
-          vim.cmd("make")
+        post_install = function(args)
+          os.execute("cd " .. args.path .. " && make")
         end,
       },
     },

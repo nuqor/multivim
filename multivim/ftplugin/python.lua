@@ -3,6 +3,7 @@ vim.g.cells_highlight_from = "Comment"
 
 local function get_mpl_backends_path()
   return os.getenv("MPL_BACKENDS_PATH")
+    or vim.fn.stdpath("config") .. "/python/mpl_backends"
 end
 
 local ipython_command = table.concat({

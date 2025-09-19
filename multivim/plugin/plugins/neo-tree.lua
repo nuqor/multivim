@@ -1,4 +1,10 @@
-require("dependencies").add { source = "nvim-neo-tree/neo-tree.nvim" }
+require("dependencies").add {
+  source = "nvim-neo-tree/neo-tree.nvim",
+  depends = {
+    "folke/noice.nvim",
+    "nvim-lua/plenary.nvim",
+  },
+}
 
 require("neo-tree").setup {
   filesystem = {

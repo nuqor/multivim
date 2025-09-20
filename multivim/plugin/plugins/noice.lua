@@ -12,7 +12,16 @@ require("noice").setup {
   },
   presets = {
     long_message_to_split = true,
-    -- FIX: Does not seem to work: used vim.opt.winborder = "rounded"
-    -- lsp_doc_border = true,
+    lsp_doc_border = true,
+  },
+  views = {
+    popupmenu = {
+      border = {
+        style = "rounded",
+      },
+      size = {
+        max_height = 7,
+      },
+    },
   },
 }

@@ -13,7 +13,9 @@ vim.g.maplocalleader = "\\"
 
 vim.keymap.set("i", "jk", "<Esc>", { silent = true })
 vim.keymap.set("n", "<leader>w", "<Cmd>w<CR>", { silent = true })
-vim.keymap.set("n", "K", vim.lsp.buf.hover)
+vim.keymap.set("n", "K", function()
+  vim.lsp.buf.hover { border = "rounded" }
+end)
 vim.keymap.set("n", "gD", vim.lsp.buf.references)
 vim.keymap.set("n", "gt", vim.lsp.buf.type_definition)
 vim.keymap.set("n", "gi", vim.lsp.buf.implementation)
@@ -40,7 +42,7 @@ vim.opt.relativenumber = true
 vim.opt.completeopt = "menuone,noselect,popup"
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = "both"
-vim.opt.winborder = "rounded"
+vim.opt.scrolloff = 10
 
 --
 -- Diagnostics

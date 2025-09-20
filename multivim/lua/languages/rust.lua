@@ -23,6 +23,7 @@ vim.lsp.config("rust_analyzer", {
     vim.keymap.set("n", "<C-i>", function()
       vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
     end)
+    vim.keymap.set("n", "<leader>cf", format)
     vim.lsp.completion.enable(true, client.id, bufnr, {
       autotrigger = true,
       convert = function(item)

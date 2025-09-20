@@ -7,15 +7,16 @@ ARG DEBIAN_VERSION=trixie
 
 FROM debian:${DEBIAN_VERSION} AS builder
 
-ARG NEOVIM_VERSION=0.11.3
+ARG NEOVIM_VERSION=0.11.4
 
-RUN apt-get -y update && apt-get -y install \
+RUN apt-get -y update && apt-get -y install --no-install-recommends \
     ninja-build \
     gettext \
     cmake \
     curl \
     build-essential \
-    git
+    git \
+    ca-certificates
 
 WORKDIR /tmp
 
@@ -42,24 +43,12 @@ RUN ninja -C build install
 FROM debian:${DEBIAN_VERSION} AS runtime
 COPY --from=builder /tmp/out /usr/local
 
-RUN apt-get -y update && apt-get -y install \
-    curl \
-    ruby \
-    ruby-neovim \
-    python3 \
-    python3-pynvim \
-    perl \
-    ripgrep \
-    nodejs \
-    npm
+RUN apt-get -y update && apt-get -y install --no-install-recommends \
+  git \
+  build-essential \
+  && rm -rf /var/lib/apt/lists/*
 
-RUN npm install -g neovim
-
-RUN useradd \
-  --create-home \
-  --shell /bin/bash \
-  user
-
+RUN useradd --create-home --shell /bin/bash user
 RUN mkdir -p /home/user/.config/nvim
 
 USER user

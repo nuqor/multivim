@@ -131,6 +131,10 @@
               ]
               ++ (plugins pkgs);
               wrapperArgs = "--set MPL_BACKENDS_PATH ${./multivim/python/mpl_backends} --set NVIM_NIX_NATIVE 1";
+              withPython3 = false;
+              withNodeJs = false;
+              withPerl = false;
+              withRuby = false;
             }).overrideAttrs
               (
                 finalAttrs: previousAttrs: {
@@ -143,6 +147,10 @@
             (pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
               plugins = (plugins pkgs);
               wrapperArgs = "--set MPL_BACKENDS_PATH ${./multivim/python/mpl_backends} --set NVIM_NIX_NATIVE 1";
+              withPython3 = false;
+              withNodeJs = false;
+              withPerl = false;
+              withRuby = false;
             }).overrideAttrs
               (
                 finalAttrs: previousAttrs: {

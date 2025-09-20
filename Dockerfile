@@ -46,6 +46,7 @@ COPY --from=builder /tmp/out /usr/local
 RUN apt-get -y update && apt-get -y install --no-install-recommends \
   git \
   build-essential \
+  ca-certificates \
   && rm -rf /var/lib/apt/lists/*
 
 RUN useradd --create-home --shell /bin/bash user

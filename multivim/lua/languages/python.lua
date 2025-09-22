@@ -41,6 +41,12 @@ vim.lsp.config("pyright", {
   end,
 })
 
+local function mypy_callback(args)
+  if vim.b[args.buf].enable_mypy then
+    require("lint").try_lint("mypy")
+  end
+end
+
 local function get_mpl_backends_path()
   return os.getenv("MPL_BACKENDS_PATH")
     or vim.fn.stdpath("config") .. "/python/mpl_backends"
@@ -99,6 +105,11 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     vim.opt.softtabstop = 4
     vim.opt.shiftwidth = 4
     vim.b[args.buf].format_on_save = true
+
+    vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
+      buffer = args.buf,
+      callback = mypy_callback,
+    })
 
     vim.g.cell_delimiter = "^#\\s\\=%%"
     vim.g.cells_highlight_from = "Comment"

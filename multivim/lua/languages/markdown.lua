@@ -11,7 +11,7 @@ local function format_on_save_callback(args)
   end
 end
 
-local function lint_callback(arg)
+local function lint_callback(args)
   require("lint").try_lint("markdownlint")
 end
 

@@ -54,6 +54,8 @@
           ruff
           stylua
           tombi
+          tinymist
+          typstyle
           vscode-langservers-extracted
           yaml-language-server
         ];

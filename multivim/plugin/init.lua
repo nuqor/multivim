@@ -71,12 +71,13 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
 -- Languages
 --
 
-require("languages.lua")
-require("languages.nix")
-require("languages.yaml")
-require("languages.xml")
-require("languages.toml")
 require("languages.json")
+require("languages.lua")
 require("languages.markdown")
+require("languages.nix")
 require("languages.python")
 require("languages.rust")
+require("languages.toml")
+require("languages.typst")
+require("languages.xml")
+require("languages.yaml")

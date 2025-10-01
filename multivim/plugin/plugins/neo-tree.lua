@@ -1,6 +1,7 @@
 require("dependencies").add {
   source = "nvim-neo-tree/neo-tree.nvim",
   depends = {
+    "MunifTanjim/nui.nvim",
     "folke/noice.nvim",
     "nvim-lua/plenary.nvim",
   },

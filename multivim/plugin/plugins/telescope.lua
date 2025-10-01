@@ -23,3 +23,7 @@ vim.keymap.set("n", "<C-p>", require("telescope.builtin").find_files)
 vim.keymap.set("n", "<leader>fg", require("telescope.builtin").live_grep)
 vim.keymap.set("n", "<leader>fb", require("telescope.builtin").buffers)
 vim.keymap.set("n", "<leader>fh", require("telescope.builtin").help_tags)
+vim.keymap.set("n", "gd", require("telescope.builtin").lsp_definitions)
+vim.keymap.set("n", "<leader>cd", function()
+  require("telescope.builtin").diagnostics { bufnr = 0 }
+end)

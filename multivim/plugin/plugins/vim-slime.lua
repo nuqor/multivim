@@ -1,4 +1,6 @@
 require("dependencies").add { source = "jpalardy/vim-slime" }
 
+vim.g.slime_no_mappings = 1
 vim.g.slime_target = "wezterm"
 vim.g.bracketed_paste = 1
+vim.g.slime_cell_delimiter = "^#\\s*%%"

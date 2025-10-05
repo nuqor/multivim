@@ -56,7 +56,7 @@ local ipython_command = table.concat({
   'PYTHONPATH="' .. get_mpl_backends_path() .. ':${PYTHONPATH}"',
   'MPLBACKEND="module://wezterm"',
   "MPLBACKEND_WEZTERM_FIGURE_RELATIVE_WIDTH=80",
-  "ipython --no-banner",
+  "ipython --no-banner --no-autoindent",
 }, " ")
 
 -- direction: left, right
@@ -85,7 +85,25 @@ local function start_repl(args)
     "--pane-id",
     tostring(terminal_pane_id),
     "--no-paste",
+    "cd " .. vim.fn.expand("%:p:h") .. "\r",
+  }
+  vim.fn.system {
+    "wezterm",
+    "cli",
+    "send-text",
+    "--pane-id",
+    tostring(terminal_pane_id),
+    "--no-paste",
     ipython_command .. "\r",
+  }
+  vim.fn.system {
+    "wezterm",
+    "cli",
+    "send-text",
+    "--pane-id",
+    tostring(terminal_pane_id),
+    "--no-paste",
+    '__file__ = "' .. vim.fn.expand("%:p") .. '"\r',
   }
   vim.fn.system {
     "wezterm",

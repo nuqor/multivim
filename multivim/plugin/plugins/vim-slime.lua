@@ -1,4 +1,7 @@
-require("dependencies").add { source = "jpalardy/vim-slime" }
+require("dependencies").add {
+  source = "jpalardy/vim-slime",
+  checkout = "main",
+}
 
 vim.g.slime_no_mappings = 1
 vim.g.slime_target = "wezterm"

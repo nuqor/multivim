@@ -1,5 +1,6 @@
 require("dependencies").add {
   source = "klafyvel/vim-slime-cells",
+  checkout = "main",
   depends = {
     "jpalardy/vim-slime",
   },

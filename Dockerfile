@@ -44,6 +44,7 @@ FROM debian:${DEBIAN_VERSION} AS runtime
 COPY --from=builder /tmp/out /usr/local
 
 RUN apt-get -y update && apt-get -y install --no-install-recommends \
+  curl \
   git \
   build-essential \
   ca-certificates \

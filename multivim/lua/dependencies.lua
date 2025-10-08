@@ -31,4 +31,12 @@ function M.add(args)
   end
 end
 
+function M.later(func)
+  if not M.is_nix_native() then
+    MiniDeps.later(func)
+  else
+    func()
+  end
+end
+
 return M

@@ -34,9 +34,12 @@
         };
       plugins =
         pkgs: with pkgs.vimPlugins; [
+          blink-cmp
           catppuccin-nvim
           conform-nvim
+          friendly-snippets
           gitsigns-nvim
+          lspkind-nvim
           lualine-nvim
           neo-tree-nvim
           noice-nvim

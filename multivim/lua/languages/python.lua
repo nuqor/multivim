@@ -20,6 +20,7 @@ end
 
 vim.lsp.enable("ruff")
 vim.lsp.config("ruff", {
+  capabilities = require("blink.cmp").get_lsp_capabilities(),
   on_attach = function(client, bufnr)
     vim.api.nvim_create_autocmd("BufWritePre", {
       buffer = bufnr,
@@ -30,14 +31,17 @@ vim.lsp.config("ruff", {
 
 vim.lsp.enable("pyright")
 vim.lsp.config("pyright", {
+  capabilities = require("blink.cmp").get_lsp_capabilities(),
+  settings = {
+    python = {
+      analysis = {
+        diagnosticMode = "workspace",
+      },
+    },
+  },
   on_attach = function(client, bufnr)
+    -- Disable diagnostics in favor of ruff
     client.handlers["textDocument/publishDiagnostics"] = function(...) end
-    vim.lsp.completion.enable(true, client.id, bufnr, {
-      autotrigger = true,
-      convert = function(item)
-        return { abbr = item.label:gsub("%b()", "") }
-      end,
-    })
   end,
 })
 

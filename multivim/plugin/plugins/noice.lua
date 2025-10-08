@@ -14,14 +14,4 @@ require("noice").setup {
     long_message_to_split = true,
     lsp_doc_border = true,
   },
-  views = {
-    popupmenu = {
-      border = {
-        style = "rounded",
-      },
-      size = {
-        max_height = 7,
-      },
-    },
-  },
 }

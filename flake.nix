@@ -41,10 +41,12 @@
           gitsigns-nvim
           lspkind-nvim
           lualine-nvim
+          mini-ai
           neo-tree-nvim
           noice-nvim
           nvim-lint
           nvim-lspconfig
+          nvim-treesitter-textobjects
           nvim-treesitter.withAllGrammars
           nvim-web-devicons
           render-markdown-nvim

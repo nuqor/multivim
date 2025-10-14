@@ -40,7 +40,6 @@
           friendly-snippets
           gitsigns-nvim
           lspkind-nvim
-          lualine-nvim
           mini-ai
           neo-tree-nvim
           noice-nvim

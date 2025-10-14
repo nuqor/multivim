@@ -47,7 +47,6 @@
           nvim-lspconfig
           nvim-treesitter-textobjects
           nvim-treesitter.withAllGrammars
-          nvim-web-devicons
           render-markdown-nvim
           smart-splits-nvim
           snacks-nvim

@@ -34,6 +34,8 @@ require("mini.bracketed").setup()
 
 require("mini.files").setup()
 
+vim.keymap.set("n", "-", require("mini.files").open)
+
 --
 -- mini.icons
 --

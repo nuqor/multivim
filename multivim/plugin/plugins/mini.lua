@@ -88,7 +88,28 @@ require("mini.starter").setup {
     require("mini.starter").gen_hook.adding_bullet(" ", false),
     require("mini.starter").gen_hook.aligning("center", "center"),
   },
+  query_updaters = "",
 }
+
+vim.api.nvim_create_autocmd({ "User" }, {
+  pattern = "MiniStarterOpened",
+  callback = function(args)
+    vim.keymap.del("n", "<M-j>", { buffer = args.buf })
+    vim.keymap.del("n", "<M-k>", { buffer = args.buf })
+    vim.keymap.set("n", "j", function()
+      require("mini.starter").update_current_item("next")
+    end)
+    vim.keymap.set("n", "k", function()
+      require("mini.starter").update_current_item("prev")
+    end)
+    vim.keymap.set("n", "e", function()
+      require("mini.starter").set_query("Edit new buffer")
+    end)
+    vim.keymap.set("n", "q", function()
+      require("mini.starter").set_query("Quit Neovim")
+    end)
+  end,
+})
 
 --
 -- mini.statusline

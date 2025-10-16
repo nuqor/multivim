@@ -39,6 +39,7 @@
           conform-nvim
           friendly-snippets
           gitsigns-nvim
+          kanagawa-nvim
           lspkind-nvim
           mini-nvim
           neo-tree-nvim

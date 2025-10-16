@@ -1,5 +1,7 @@
 require("dependencies").install_mini_deps()
 
+require("themes.kanagawa")
+
 --
 -- Leader keys
 -- TODO: does work

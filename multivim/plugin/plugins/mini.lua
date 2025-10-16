@@ -111,9 +111,8 @@ vim.api.nvim_create_autocmd({ "User" }, {
 -- mini.statusline
 --
 
-vim.api.nvim_set_hl(0, "StatusLineMode", {
-  fg = require("catppuccin.palettes").get_palette().peach,
-})
+vim.api.nvim_set_hl(0, "MiniStatuslineModeNormal", { link = "DiffText" })
+vim.api.nvim_set_hl(0, "MiniStatuslineModeCommand", { link = "Cursor" })
 
 vim.api.nvim_create_autocmd(
   { "ModeChanged", "RecordingEnter", "RecordingLeave" },
@@ -169,7 +168,7 @@ require("mini.statusline").setup {
         },
         "%=", -- End left alignment
         {
-          hl = "StatusLineMode",
+          hl = "Constant",
           strings = { require("noice").api.status.mode.get() },
         },
         {

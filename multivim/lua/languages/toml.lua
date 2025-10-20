@@ -1,3 +1,5 @@
+local register_formatter = require("languages").register_formatter
+
 local function format(bufnr)
   vim.lsp.buf.format {
     bufnr = bufnr,
@@ -16,10 +18,7 @@ end
 vim.lsp.enable("tombi")
 vim.lsp.config("tombi", {
   on_attach = function(client, bufnr)
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      buffer = bufnr,
-      callback = format_on_save_callback,
-    })
+    register_formatter(bufnr, format)
   end,
 })
 

@@ -1,14 +1,10 @@
+local register_formatter = require("languages").register_formatter
+
 local function format(bufnr)
   require("conform").format {
     bufnr = bufnr,
     formatters = { "mdformat" },
   }
-end
-
-local function format_on_save_callback(args)
-  if vim.b[args.buf].format_on_save then
-    format(args.buf)
-  end
 end
 
 local function lint_callback(args)
@@ -25,10 +21,7 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     vim.opt.shiftwidth = 2
     vim.b[args.buf].format_on_save = true
 
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      buffer = args.buf,
-      callback = format_on_save_callback,
-    })
+    register_formatter(args.buf, format)
 
     vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter", "InsertLeave" }, {
       buffer = args.buf,

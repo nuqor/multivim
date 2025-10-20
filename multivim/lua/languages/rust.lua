@@ -1,3 +1,5 @@
+local register_formatter = require("languages").register_formatter
+
 local function format(bufnr)
   vim.lsp.buf.format {
     bufnr = bufnr,
@@ -7,23 +9,13 @@ local function format(bufnr)
   }
 end
 
-local function format_on_save_callback(args)
-  if vim.b[args.buf].format_on_save then
-    format(args.buf)
-  end
-end
-
 vim.lsp.enable("rust_analyzer")
 vim.lsp.config("rust_analyzer", {
   on_attach = function(client, bufnr)
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      buffer = bufnr,
-      callback = format_on_save_callback,
-    })
+    register_formatter(bufnr, format)
     vim.keymap.set("n", "<C-i>", function()
       vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
     end)
-    vim.keymap.set("n", "<leader>cf", format)
     vim.lsp.completion.enable(true, client.id, bufnr, {
       autotrigger = true,
       convert = function(item)

@@ -1,3 +1,5 @@
+local register_formatter = require("languages").register_formatter
+
 local function format(bufnr)
   vim.lsp.buf.format {
     bufnr = bufnr,
@@ -19,17 +21,13 @@ vim.lsp.config("tinymist", {
     formatterMode = "typstyle",
   },
   on_attach = function(client, bufnr)
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      buffer = bufnr,
-      callback = format_on_save_callback,
-    })
-    vim.keymap.set("n", "<leader>cf", format)
+    register_formatter(bufnr, format)
   end,
 })
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = "typst",
   callback = function(args)
-    vim.b[args.buf].format_on_save = false
+    vim.b[args.buf].format_on_save = true
   end,
 })

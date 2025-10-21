@@ -6,6 +6,8 @@ require("dependencies").add {
   },
 }
 
-vim.keymap.set("n", "<C-c><C-c>", "<Plug>SlimeCellsSendAndGoToNext")
+vim.g.cells_highlight_from = "Comment"
+
+vim.keymap.set("n", "<C-c><C-c>", "<Plug>SlimeCellsSend")
 vim.keymap.set("n", "<C-c><C-j>", "<Plug>SlimeCellsNext")
 vim.keymap.set("n", "<C-c><C-k>", "<Plug>SlimeCellsPrev")

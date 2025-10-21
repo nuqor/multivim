@@ -57,13 +57,11 @@ local ipython_command = table.concat({
 }, " ")
 
 -- direction: left, right
-local function start_repl(args)
-  local direction = args.fargs[1]
-
+local function start_repl(direction, width_in_cells)
   local mux = require("smart-splits.mux").get()
 
   -- Split terminal, get wezterms pane id and return to original pane
-  mux.split_pane(direction)
+  mux.split_pane(direction, width_in_cells)
   local terminal_pane_id = mux.current_pane_id()
   vim.fn.system { "wezterm", "cli", "activate-pane-direction", "Prev" }
 
@@ -126,14 +124,14 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
       callback = mypy_callback,
     })
 
-    vim.g.cell_delimiter = "^#\\s\\=%%"
-    vim.g.cells_highlight_from = "Comment"
+    vim.b[args.buf].slime_cell_delimiter = "^#\\s*%%"
 
-    vim.api.nvim_buf_create_user_command(
-      0,
-      "ReplStart",
-      start_repl,
-      { nargs = 1 }
-    )
+    vim.api.nvim_buf_create_user_command(0, "ReplStartTo", function(args)
+      start_repl(args.fargs[1], args.fargs[2])
+    end, { nargs = "+" })
+
+    vim.api.nvim_buf_create_user_command(0, "ReplStart", function()
+      start_repl("left", 80)
+    end, { nargs = 0 })
   end,
 })

@@ -133,5 +133,10 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     vim.api.nvim_buf_create_user_command(0, "ReplStart", function()
       start_repl("left", 80)
     end, { nargs = 0 })
+
+    require("multivim.cells").register(args.buf, {
+      cell_delimiter = "# %%",
+      cell_delimiter_regex = "^#\\s*%%",
+    })
   end,
 })

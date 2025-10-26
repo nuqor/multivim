@@ -21,17 +21,6 @@
       #   runtimeDeps = [ ];
       #   dependencies = [ ];
       # };
-      vim-slime-cells =
-        pkgs:
-        pkgs.vimUtils.buildVimPlugin {
-          name = "vim-slime-cells";
-          src = pkgs.fetchFromGitHub {
-            owner = "Klafyvel";
-            repo = "vim-slime-cells";
-            rev = "2252bc83fc0174c8e67bcf9a519edf2d328b8bc9";
-            hash = "sha256-d3+uH+LuIbrBFNp5BCHca2m94RN2asGgzQojC2f6yoQ=";
-          };
-        };
       plugins =
         pkgs: with pkgs.vimPlugins; [
           blink-cmp
@@ -55,7 +44,6 @@
           telescope-nvim
           tiny-inline-diagnostic-nvim
           vim-slime
-          (vim-slime-cells pkgs)
         ];
       runtimeDeps =
         pkgs: with pkgs; [

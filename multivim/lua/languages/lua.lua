@@ -7,6 +7,19 @@ local function format(bufnr)
   }
 end
 
+vim.lsp.enable("emmylua_ls")
+vim.lsp.config("emmylua_ls", {
+  settings = {},
+  on_init = function(client)
+    client.config.settings.Lua =
+      vim.tbl_deep_extend("force", client.config.settings.Lua or {}, {
+        workspace = {
+          library = vim.api.nvim_get_runtime_file("", true),
+        },
+      })
+  end,
+})
+
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = "lua",
   callback = function(args)

@@ -47,6 +47,7 @@
         ];
       runtimeDeps =
         pkgs: with pkgs; [
+          emmylua-ls
           lemminx
           markdownlint-cli
           marksman
@@ -57,8 +58,8 @@
           ripgrep
           ruff
           stylua
-          tombi
           tinymist
+          tombi
           typstyle
           vscode-langservers-extracted
           yaml-language-server

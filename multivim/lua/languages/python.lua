@@ -56,59 +56,30 @@ local ipython_command = table.concat({
   "ipython --no-banner --no-autoindent",
 }, " ")
 
+local function send_command(cmd)
+  vim.fn["slime#send"](cmd .. "\r")
+end
+
+local function clear_terminal()
+  vim.fn["slime#send"]("\x0c")
+end
+
 -- direction: left, right
 local function start_repl(direction, width_in_cells)
-  local mux = require("smart-splits.mux").get()
-
-  -- Split terminal, get wezterms pane id and return to original pane
-  mux.split_pane(direction, width_in_cells)
-  local terminal_pane_id = mux.current_pane_id()
-  vim.fn.system { "wezterm", "cli", "activate-pane-direction", "Prev" }
+  local terminal_pane_id = require("multivim.wezterm").split_pane {
+    direction = direction,
+    focus_new_pane = false,
+  }
 
   -- Configure slime with wezterms pane id
   local slime_config = vim.b[0].slime_config or {}
   slime_config.pane_id = terminal_pane_id
   vim.b[0].slime_config = slime_config
 
-  print(ipython_command)
-
-  -- Send command to start ipyhton and clear terminal
-  vim.fn.system {
-    "wezterm",
-    "cli",
-    "send-text",
-    "--pane-id",
-    tostring(terminal_pane_id),
-    "--no-paste",
-    "cd " .. vim.fn.expand("%:p:h") .. "\r",
-  }
-  vim.fn.system {
-    "wezterm",
-    "cli",
-    "send-text",
-    "--pane-id",
-    tostring(terminal_pane_id),
-    "--no-paste",
-    ipython_command .. "\r",
-  }
-  vim.fn.system {
-    "wezterm",
-    "cli",
-    "send-text",
-    "--pane-id",
-    tostring(terminal_pane_id),
-    "--no-paste",
-    '__file__ = "' .. vim.fn.expand("%:p") .. '"\r',
-  }
-  vim.fn.system {
-    "wezterm",
-    "cli",
-    "send-text",
-    "--pane-id",
-    tostring(terminal_pane_id),
-    "--no-paste",
-    "\x0c",
-  }
+  send_command("cd " .. vim.fn.expand("%:p:h"))
+  send_command(ipython_command)
+  send_command('__file__ = "' .. vim.fn.expand("%:p") .. '"')
+  clear_terminal()
 end
 
 vim.api.nvim_create_autocmd({ "FileType" }, {

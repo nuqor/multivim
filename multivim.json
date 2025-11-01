@@ -1,0 +1,5 @@
+{
+  "**/*.{json,lua,nix}": {
+    "format_on_save": true
+  }
+}

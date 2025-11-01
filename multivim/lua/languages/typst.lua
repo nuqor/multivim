@@ -24,10 +24,3 @@ vim.lsp.config("tinymist", {
     register_formatter(bufnr, format)
   end,
 })
-
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = "typst",
-  callback = function(args)
-    vim.b[args.buf].format_on_save = true
-  end,
-})

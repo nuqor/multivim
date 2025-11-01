@@ -19,7 +19,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     vim.opt.tabstop = 2
     vim.opt.softtabstop = 2
     vim.opt.shiftwidth = 2
-    vim.b[args.buf].format_on_save = true
 
     register_formatter(args.buf, format)
 

@@ -1,6 +1,7 @@
 require("dependencies").install_mini_deps()
 
 require("themes")
+require("multivim.localconf")
 
 --
 -- Leader keys

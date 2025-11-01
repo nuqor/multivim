@@ -32,9 +32,93 @@ require("mini.bracketed").setup()
 -- mini.files
 --
 
-require("mini.files").setup()
+mini_files = require("mini.files")
 
-vim.keymap.set("n", "-", require("mini.files").open)
+local never_show = {
+  ".git",
+  ".DS_Store",
+}
+
+local always_show = {
+  ".editorconfig",
+  "dummy_file.txt",
+}
+
+-- State
+local hide_dotfiles = true
+local hide_gitignored = true
+
+-- Remove filesystem entries that are in gitignored
+---@param fs_entries table
+local function filter_and_sort(fs_entries)
+  if hide_gitignored then
+    local paths = table.concat(
+      vim.tbl_map(function(entry)
+        return entry.path
+      end, fs_entries),
+      "\n"
+    )
+
+    local result = vim
+      .system({ "git", "check-ignore", "--stdin" }, { text = true, stdin = paths })
+      :wait()
+
+    -- Check for error code and empty stdout
+    --
+    -- 0: One or more of the provided paths is ignored.
+    -- 1: None of the provided paths are ignored.
+    -- 128: A fatal error was encountered.
+    if result.code ~= 0 or not result.stdout then
+      return fs_entries
+    end
+
+    local ignored_paths = vim.split(result.stdout, "\n")
+
+    fs_entries = vim.tbl_filter(function(entry)
+      return (
+        not vim.tbl_contains(ignored_paths, entry.path)
+        or vim.tbl_contains(always_show, entry.name)
+      )
+    end, fs_entries)
+  end
+
+  return mini_files.default_sort(fs_entries)
+end
+
+local function filter(fs_entry)
+  return not vim.tbl_contains(never_show, fs_entry.name)
+    and not (
+      hide_dotfiles
+      and vim.startswith(fs_entry.name, ".")
+      and not vim.tbl_contains(always_show, fs_entry.name)
+    )
+end
+
+local function highlight(fs_entry)
+  if vim.startswith(fs_entry.name, ".") then
+    return "Comment"
+  end
+end
+vim.api.nvim_create_autocmd("User", {
+  pattern = "MiniFilesBufferCreate",
+  callback = function(args)
+    vim.keymap.set("n", "g.", function()
+      hide_gitignored = not hide_gitignored
+      hide_dotfiles = not hide_dotfiles
+      MiniFiles.refresh { content = { filter = filter, sort = filter_and_sort } }
+    end, { buffer = args.data.buf_id })
+  end,
+})
+
+mini_files.setup {
+  content = {
+    filter = filter,
+    sort = filter_and_sort,
+    highlight = highlight,
+  },
+}
+
+vim.keymap.set("n", "-", mini_files.open)
 
 --
 -- mini.icons

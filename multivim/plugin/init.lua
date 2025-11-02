@@ -5,7 +5,6 @@ require("multivim.localconf")
 
 --
 -- Leader keys
--- TODO: does work
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
@@ -23,12 +22,6 @@ vim.keymap.set("n", "gD", vim.lsp.buf.references)
 vim.keymap.set("n", "gt", vim.lsp.buf.type_definition)
 vim.keymap.set("n", "gi", vim.lsp.buf.implementation)
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action)
-
---
--- Color scheme
---
-
--- vim.cmd.colorscheme("catppuccin")
 
 --
 -- Global options
@@ -51,7 +44,6 @@ vim.opt.foldminlines = 0
 
 --
 -- Diagnostics
--- TODO: verify
 --
 
 vim.diagnostic.config {
@@ -88,3 +80,11 @@ require("dependencies").later(function()
   require("languages.xml")
   require("languages.yaml")
 end)
+
+--
+-- User commands
+--
+
+vim.api.nvim_create_user_command("Lazygit", function()
+  require("multivim.wezterm").overlay_pane("lazygit")
+end, { nargs = 0 })

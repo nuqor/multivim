@@ -66,6 +66,11 @@ function M.is_cursor_inside_cell()
   return M.find_previous_delimiter_line(false) ~= nil
 end
 
+function M.is_delimiter_in_line(line_number)
+  local cell_delimiter_regex = config.get("cell_delimiter_regex")
+  return vim.regex(cell_delimiter_regex):match_line(0, line_number - 1) ~= nil
+end
+
 function M.find_cell_start(include_delimiter_line)
   assert(type(include_delimiter_line) == "boolean")
   local line_number = M.find_previous_delimiter_line(false)
@@ -84,7 +89,7 @@ function M.find_cell_end()
 end
 
 function M.jump_to_previous_cell()
-  local line_number = M.find_previous_delimiter_outside_cell(true)
+  local line_number = M.find_previous_delimiter_outside_cell()
   line_number = line_number or 1
   vim.fn.setpos(".", { 0, line_number, 1, 0 })
   return line_number

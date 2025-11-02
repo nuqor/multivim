@@ -37,6 +37,10 @@ function M.register(bufnr, config)
   vim.keymap.set("n", "<C-c><C-k>", commands.jump_into_previous_cell)
   vim.keymap.set("n", "<C-c><C-a>", commands.insert_cell_above)
   vim.keymap.set("n", "<C-c><C-b>", commands.insert_cell_below)
+
+  vim.opt_local.foldmethod = "expr"
+  vim.opt_local.foldexpr =
+    "v:lua.require('multivim.cells.folds').foldexpr(v:lnum)"
 end
 
 return M

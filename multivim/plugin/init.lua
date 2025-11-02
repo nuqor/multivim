@@ -45,6 +45,9 @@ vim.opt.completeopt = "menuone,noselect,popup"
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = "both"
 vim.opt.scrolloff = 10
+vim.opt.foldmethod = "manual"
+vim.opt.foldlevel = 999
+vim.opt.foldminlines = 0
 
 --
 -- Diagnostics

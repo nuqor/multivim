@@ -76,14 +76,23 @@ vim.api.nvim_create_autocmd("BufRead", {
 
 local M = {}
 
+---@class ConfigGetOpts
+---@field buffer integer
+---@field default any
+
 ---@param key string
----@param bufnr integer?
-function M.get(key, bufnr)
-  bufnr = bufnr or 0
+---@param opts ConfigGetOpts?
+function M.get(key, opts)
+  opts = opts or {}
+  local bufnr = opts["buffer"] or 0
+
   local config = vim.b[bufnr].localconf
-  if config then
-    return config[key]
+
+  if not config or config[key] == nil then
+    return default
   end
+
+  return config[key]
 end
 
 return M

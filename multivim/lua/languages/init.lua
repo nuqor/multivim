@@ -6,7 +6,7 @@ function M.register_formatter(bufnr, format_callback)
   vim.api.nvim_create_autocmd("BufWritePre", {
     buffer = bufnr,
     callback = function(args)
-      if localconf.get("format_on_save", bufnr) then
+      if localconf.get("format_on_save", { buffer = bufnr }) then
         format_callback(args.buf)
       end
     end,

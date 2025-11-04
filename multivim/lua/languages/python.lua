@@ -1,4 +1,5 @@
 local register_formatter = require("languages").register_formatter
+local localconf = require("multivim.localconf")
 
 local function format(bufnr)
   vim.lsp.buf.code_action {
@@ -39,7 +40,11 @@ vim.lsp.config("pyright", {
 })
 
 local function mypy_callback(args)
-  if vim.b[args.buf].enable_mypy then
+  local enable_mypy = localconf.get("enable_mypy", {
+    buffer = args.buf,
+    default = false,
+  })
+  if enable_mypy then
     require("lint").try_lint("mypy")
   end
 end

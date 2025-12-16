@@ -1,7 +1,6 @@
 require("dependencies").install_mini_deps()
 
 require("themes")
-require("multivim.localconf")
 
 --
 -- Leader keys
@@ -22,6 +21,8 @@ vim.keymap.set("n", "gD", vim.lsp.buf.references)
 vim.keymap.set("n", "gt", vim.lsp.buf.type_definition)
 vim.keymap.set("n", "gi", vim.lsp.buf.implementation)
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action)
+
+vim.keymap.set("n", "<leader>rr", require("multivim.runner").run_code)
 
 --
 -- Global options

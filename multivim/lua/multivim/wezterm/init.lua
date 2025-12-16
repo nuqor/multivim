@@ -39,6 +39,41 @@ function M.get_current_pane_id()
   return clients[1]["focused_pane_id"]
 end
 
+--- Get all Pane IDs
+---@return int[] Currently existing Pane IDs
+function M.get_pane_ids()
+  local json_string = M.wezterm_cli { "list", "--format=json" }
+
+  if not json_string then
+    return nil
+  end
+
+  local panes = vim.json.decode(json_string)
+
+  if not panes or #panes == 0 then
+    return {}
+  end
+
+  pane_ids = {}
+  for _, pane in pairs(panes) do
+    table.insert(pane_ids, pane["pane_id"])
+  end
+
+  return pane_ids
+end
+
+--- Check if a Pane ID exists
+--- @param pane_id int
+--- @return boolean True if pane with given ID exists
+function M.pane_exists(pane_id)
+  for _, existing_pane_id in pairs(M.get_pane_ids()) do
+    if existing_pane_id == pane_id then
+      return true
+    end
+  end
+  return false
+end
+
 ---@enum Direction
 local _Direction = {
   Right = "right",
@@ -52,8 +87,8 @@ local _Direction = {
 -- created pane should focused (default).
 ---@class SplitPaneArgs
 ---@field direction Direction?
----@field percent string?
----@field cells string?
+---@field percent integer?
+---@field cells integer?
 ---@field cwd string?
 ---@field prog string?
 ---@field focus_new_pane boolean?
@@ -84,6 +119,7 @@ function M.split_pane(args)
   end
 
   if args.prog then
+    table.insert(cmd, "--")
     table.insert(cmd, args.prog)
   end
 
@@ -101,6 +137,26 @@ end
 function M.overlay_pane(prog)
   local pane_id = M.split_pane { prog = prog }
   M.wezterm_cli { "zoom-pane", "--pane-id", tostring(pane_id) }
+end
+
+-- Send text to wezterm pane
+---@param pane_id integer
+---@param text string
+---@param bracketed_paste boolean? default: false
+function M.send_text(pane_id, text, bracketed_paste)
+  local cmd = { "send-text", "--pane-id", tostring(pane_id) }
+
+  if bracketed_paste == nil then
+    bracketed_paste = false
+  end
+
+  if not bracketed_paste then
+    table.insert(cmd, "--no-paste")
+  end
+
+  table.insert(cmd, text)
+
+  M.wezterm_cli(cmd)
 end
 
 return M

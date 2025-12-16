@@ -18,7 +18,7 @@ local function get_config_filename(root_directory)
   return nil
 end
 
--- Read JSON config file and decote to table
+-- Read JSON config file and decode to table
 ---@param config_file string Path to config file
 ---@return table? Config or nil
 local function read_json(config_file)
@@ -89,7 +89,7 @@ function M.get(key, opts)
   local config = vim.b[bufnr].localconf
 
   if not config or config[key] == nil then
-    return default
+    return opts["default"]
   end
 
   return config[key]

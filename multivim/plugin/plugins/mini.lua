@@ -35,13 +35,18 @@ require("mini.bracketed").setup()
 mini_files = require("mini.files")
 
 local never_show = {
-  ".git",
   ".DS_Store",
+  ".git",
+  ".mypy_cache",
+  ".ruff_cache",
+  "__pycache__",
 }
 
 local always_show = {
   ".editorconfig",
-  "dummy_file.txt",
+  ".envrc",
+  ".multivim.json",
+  "multivim.json",
 }
 
 -- State

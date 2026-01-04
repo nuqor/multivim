@@ -37,6 +37,7 @@
           nvim-lspconfig
           nvim-treesitter-textobjects
           nvim-treesitter.withAllGrammars
+          quarto-nvim
           render-markdown-nvim
           smart-splits-nvim
           snacks-nvim
@@ -57,6 +58,7 @@
           pyright
           ripgrep
           ruff
+          rumdl
           stylua
           tinymist
           tombi

@@ -1,30 +1,28 @@
 local register_formatter = require("languages").register_formatter
 
 local function format(bufnr)
-  require("conform").format {
+  vim.lsp.buf.format {
     bufnr = bufnr,
-    formatters = { "mdformat" },
+    filter = function(client)
+      return client.name == "rumdl"
+    end,
   }
 end
 
-local function lint_callback(args)
-  require("lint").try_lint("markdownlint")
-end
+vim.lsp.enable("rumdl")
+vim.lsp.config("rumdl", {
+  on_attach = function(_client, bufnr)
+    register_formatter(bufnr, format)
+  end,
+})
 
 vim.lsp.enable("marksman")
 
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = "markdown",
-  callback = function(args)
+  callback = function(_args)
     vim.opt.tabstop = 2
     vim.opt.softtabstop = 2
     vim.opt.shiftwidth = 2
-
-    register_formatter(args.buf, format)
-
-    vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter", "InsertLeave" }, {
-      buffer = args.buf,
-      callback = lint_callback,
-    })
   end,
 })

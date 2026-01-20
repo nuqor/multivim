@@ -11,17 +11,11 @@ end
 
 vim.lsp.enable("rust_analyzer")
 vim.lsp.config("rust_analyzer", {
-  on_attach = function(client, bufnr)
+  on_attach = function(_client, bufnr)
     register_formatter(bufnr, format)
     vim.keymap.set("n", "<C-i>", function()
       vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
     end)
-    vim.lsp.completion.enable(true, client.id, bufnr, {
-      autotrigger = true,
-      convert = function(item)
-        return { abbr = item.label:gsub("%b()", "") }
-      end,
-    })
   end,
 })
 

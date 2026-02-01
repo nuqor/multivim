@@ -56,6 +56,7 @@ function M.run_code()
   local cmd = localconf.get("run_command")
   if cmd ~= nil then
     cmd = cmd:gsub("${file}", vim.fn.expand("%:p"))
+    cmd = cmd:gsub("${file:t:r}", vim.fn.expand("%:t:r"))
     M.run_in_pane(cmd)
   else
     vim.notify("run_command not found in multivim config")

@@ -54,7 +54,7 @@
           marksman
           mdformat
           nixd
-          nixfmt-rfc-style
+          nixfmt
           pyright
           ripgrep
           ruff

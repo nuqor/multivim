@@ -52,4 +52,4 @@ if not require("dependencies").is_nix_native() then
 end
 
 -- TODO: test folding and incremental selection
-require("nvim-treesitter.configs").setup(config)
+require("nvim-treesitter.config").setup(config)

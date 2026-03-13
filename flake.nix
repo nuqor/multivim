@@ -211,6 +211,10 @@
       #   }
       # );
 
+      overlays.default = final: prev: {
+        neovim = self.packages.${prev.system}.neovim;
+      };
+
     };
 
 }
